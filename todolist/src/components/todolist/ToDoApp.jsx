@@ -12,6 +12,7 @@ class ToDoApp extends Component {
             <Route path="/" element={<LoginComponentWithNavigation />} />
             <Route path="/login" element={<LoginComponentWithNavigation />} />
             <Route path="/welcome" element={<WelcomeComponent />} />
+            <Route path="*" element={<ErrorComponent />} />
           </Routes>
         </Router>
       </div>
@@ -23,6 +24,10 @@ class WelcomeComponent extends Component {
   render() {
     return <div>Welcome Francesca</div>;
   }
+}
+
+function ErrorComponent() {
+  return <div>An Error Has Occured. Contact support at errorsupport.com</div>;
 }
 
 class LoginComponent extends Component {
