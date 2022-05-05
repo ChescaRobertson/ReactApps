@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import withNavigation from './WithNavigation';
 
 class ToDoApp extends Component {
   render() {
+    const LoginComponentWithNavigation = withNavigation(LoginComponent);
     return (
       <div className="ToDoApp">
-        <LoginComponent />
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginComponentWithNavigation />} />
+            <Route path="/login" element={<LoginComponentWithNavigation />} />
+            <Route path="/welcome" element={<WelcomeComponent />} />
+          </Routes>
+        </Router>
       </div>
     );
+  }
+}
+
+class WelcomeComponent extends Component {
+  render() {
+    return <div>Welcome Francesca</div>;
   }
 }
 
@@ -32,26 +47,18 @@ class LoginComponent extends Component {
 
   loginClicked() {
     if (this.state.username === 'admin' && this.state.password === 'pass') {
-      console.log(`successful`);
-      this.setState({ showSuccessMessage: true });
-      this.setState({ hasLoginFalied: false });
+      this.props.navigate('/welcome');
     } else {
       this.setState({ showSuccessMessage: false });
       this.setState({ hasLoginFalied: true });
-      console.log('invalid');
     }
-    //console.log(this.state);
   }
 
   render() {
     return (
       <div>
-        <ShowInvalidCredentials
-          hasLoginFalied={
-            this.state.hasLoginFalied && <div>Invalid Creditentials</div>
-          }
-        />
-        <ShowLoginSuccess showSuccessMessage={this.state.showSuccessMessage} />
+        {this.state.hasLoginFalied && <div>Invalid Creditentials</div>}
+        {this.state.showSuccessMessage && <div>Login Successful</div>}
         Username:{' '}
         <input
           type="text"
@@ -72,16 +79,4 @@ class LoginComponent extends Component {
   }
 }
 
-function ShowInvalidCredentials(props) {
-  if (props.hasLoginFalied) {
-    return <div>Invalid Creditentials</div>;
-  }
-  return null;
-}
-
-function ShowLoginSuccess(props) {
-  if (props.showSuccessMessage) {
-    return <div>Login Successful</div>;
-  }
-}
 export default ToDoApp;
