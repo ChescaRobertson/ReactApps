@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ToDoApp from './components/todolist/ToDoApp';
 import './App.css';
+import './bootstrap.css';
 
 class App extends Component {
   render() {
