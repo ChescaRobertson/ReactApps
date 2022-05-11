@@ -16,6 +16,8 @@ class ToDoApp extends Component {
     const LoginComponentWithNavigation = withNavigation(LoginComponent);
     const WelcomeComponentWithParams = withParams(WelcomeComponent);
     const HeaderComponentWithNavigation = withNavigation(HeaderComponent);
+    const ListTodosComponentWithNavigation = withNavigation(ListToDosComponent);
+
     return (
       <div className="ToDoApp">
         <Router>
@@ -35,7 +37,7 @@ class ToDoApp extends Component {
               path="/todos"
               element={
                 <AuthenticatedRoute>
-                  <ListToDosComponent />
+                  <ListTodosComponentWithNavigation />
                 </AuthenticatedRoute>
               }
             />

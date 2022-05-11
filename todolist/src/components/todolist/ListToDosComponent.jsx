@@ -7,20 +7,52 @@ class ListToDosComponent extends Component {
     super(props);
     this.state = {
       todos: [],
+      message: null,
     };
+
+    this.deleteTodoClicked = this.deleteTodoClicked.bind(this);
   }
 
+  // componentWillUnmount() {
+  //   console.log('componentunmount');
+  // }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('should update');
+  //   console.log(nextProps);
+  //   console.log(nextState);
+  //   return true;
+  // }
+
   // First time a page is loaded called mounting
-  componentDidMount = async () => {
+  componentDidMount() {
+    this.refreshTodos();
+  }
+
+  refreshTodos = async () => {
     let username = AuthenticationService.getLoggedInUser();
     const response = await ToDoDataService.retrieveAllTodos(username);
     this.setState({ todos: response.data });
+  };
+
+  deleteTodoClicked = async (id) => {
+    let username = AuthenticationService.getLoggedInUser();
+    try {
+      await ToDoDataService.deleteTodo(username, id);
+      this.setState({ message: `Delete of todo ${id} successful` });
+      this.refreshTodos();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
     return (
       <div>
         <h1>ToDo List</h1>
+        {this.state.message && (
+          <div className="alert alert-success">{this.state.message}</div>
+        )}
         <div className="conatiner">
           <table className="table">
             <thead>
@@ -28,6 +60,7 @@ class ListToDosComponent extends Component {
                 <th>Description</th>
                 <th>Done</th>
                 <th>Target Date</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -36,6 +69,14 @@ class ListToDosComponent extends Component {
                   <td>{todo.description}</td>
                   <td>{todo.done.toString()}</td>
                   <td>{todo.targetDate.toString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-warning"
+                      onClick={() => this.deleteTodoClicked(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
