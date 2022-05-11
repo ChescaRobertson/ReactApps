@@ -14,13 +14,24 @@ public class TodoHardCodedService {
     private static int idCounter = 0;
 
     static {
-        todos.add(new Todo(++idCounter, "francesca", "Learn React", new Date(), false));
-        todos.add(new Todo(++idCounter, "francesca", "Cook dinner", new Date(), false));
-        todos.add(new Todo(++idCounter, "francesca", "Do Laundry", new Date(), false));
+        todos.add(new Todo(++idCounter, "admin", "Learn React", new Date(), false));
+        todos.add(new Todo(++idCounter, "admin", "Cook dinner", new Date(), false));
+        todos.add(new Todo(++idCounter, "admin", "Do Laundry", new Date(), false));
     }
 
     public List<Todo> findAll() {
         return todos;
+    }
+
+    public Todo save(Todo todo) {
+        if(todo.getId()==-1 || todo.getId()==0) {
+            todo.setId(++idCounter);
+            todos.add(todo);
+        } else {
+            deleteById(todo.getId());
+            todos.add(todo);
+        }
+        return todo;
     }
 
     public Todo deleteById(long id) {
