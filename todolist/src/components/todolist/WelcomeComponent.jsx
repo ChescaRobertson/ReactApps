@@ -7,9 +7,11 @@ class WelcomeComponent extends Component {
     super(props);
     this.state = {
       welcomeMessage: '',
+      errorMessage: '',
     };
     this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this);
     this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
   render() {
     return (
@@ -29,22 +31,29 @@ class WelcomeComponent extends Component {
           </button>
         </div>
         <div className="container">{this.state.welcomeMessage}</div>
+        <div className="container">{this.state.errorMessage}</div>
       </>
     );
   }
 
   retrieveWelcomeMessage = async () => {
     try {
-      const response = await HelloWorldService.executeHelloWorldService();
+      const response =
+        await HelloWorldService.executeHelloWorldPathVariableService(
+          this.props.params.name
+        );
       this.handleSuccessfulResponse(response);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      this.handleError(error);
     }
-    //.catch()
   };
 
   handleSuccessfulResponse(response) {
     this.setState({ welcomeMessage: response.data.message });
+  }
+
+  handleError(error) {
+    this.setState({ errorMessage: error.response.data.message });
   }
 }
 
