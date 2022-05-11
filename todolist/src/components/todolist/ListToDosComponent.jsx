@@ -46,6 +46,10 @@ class ListToDosComponent extends Component {
     }
   };
 
+  updateTodoClicked = async (id) => {
+    this.props.navigate(`/todos/${id}`);
+  };
+
   render() {
     return (
       <div>
@@ -60,6 +64,7 @@ class ListToDosComponent extends Component {
                 <th>Description</th>
                 <th>Done</th>
                 <th>Target Date</th>
+                <th>Update</th>
                 <th>Delete</th>
               </tr>
             </thead>
@@ -69,6 +74,14 @@ class ListToDosComponent extends Component {
                   <td>{todo.description}</td>
                   <td>{todo.done.toString()}</td>
                   <td>{todo.targetDate.toString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-success"
+                      onClick={() => this.updateTodoClicked(todo.id)}
+                    >
+                      Update
+                    </button>
+                  </td>
                   <td>
                     <button
                       className="btn btn-warning"

@@ -10,6 +10,7 @@ import LogoutComponent from './LogoutComponent';
 import WelcomeComponent from './WelcomeComponent';
 import ListToDosComponent from './ListToDosComponent';
 import ErrorComponent from './ErrorComponent';
+import ToDoComponent from './ToDoComponent';
 
 class ToDoApp extends Component {
   render() {
@@ -17,6 +18,9 @@ class ToDoApp extends Component {
     const WelcomeComponentWithParams = withParams(WelcomeComponent);
     const HeaderComponentWithNavigation = withNavigation(HeaderComponent);
     const ListTodosComponentWithNavigation = withNavigation(ListToDosComponent);
+    const ToDoComponentWithParamsAndNavigation = withParams(
+      withNavigation(ToDoComponent)
+    );
 
     return (
       <div className="ToDoApp">
@@ -30,6 +34,14 @@ class ToDoApp extends Component {
               element={
                 <AuthenticatedRoute>
                   <WelcomeComponentWithParams />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/todos/:id"
+              element={
+                <AuthenticatedRoute>
+                  <ToDoComponentWithParamsAndNavigation />
                 </AuthenticatedRoute>
               }
             />
@@ -49,6 +61,7 @@ class ToDoApp extends Component {
                 </AuthenticatedRoute>
               }
             />
+
             <Route path="*" element={<ErrorComponent />} />
           </Routes>
           <FooterComponent />
