@@ -33,12 +33,15 @@ class WelcomeComponent extends Component {
     );
   }
 
-  retrieveWelcomeMessage() {
-    HelloWorldService.executeHelloWorldService().then((response) =>
-      this.handleSuccessfulResponse(response)
-    );
+  retrieveWelcomeMessage = async () => {
+    try {
+      const response = await HelloWorldService.executeHelloWorldService();
+      this.handleSuccessfulResponse(response);
+    } catch (err) {
+      console.log(err);
+    }
     //.catch()
-  }
+  };
 
   handleSuccessfulResponse(response) {
     this.setState({ welcomeMessage: response.data.message });
