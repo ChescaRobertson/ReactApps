@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
+import ToDoDataService from '../../api/todo/ToDoDataService';
+import AuthenticationService from './AuthenticationService';
 
 class ListToDosComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: [
-        {
-          id: 1,
-          description: 'Learn React',
-          done: false,
-          targetDate: new Date(),
-        },
-        {
-          id: 2,
-          description: 'Cook dinner',
-          done: false,
-          targetDate: new Date(),
-        },
-        {
-          id: 3,
-          description: 'Wash dishes',
-          done: false,
-          targetDate: new Date(),
-        },
-      ],
+      todos: [],
     };
   }
+
+  // First time a page is loaded called mounting
+  componentDidMount = async () => {
+    let username = AuthenticationService.getLoggedInUser();
+    const response = await ToDoDataService.retrieveAllTodos(username);
+    this.setState({ todos: response.data });
+  };
+
   render() {
     return (
       <div>

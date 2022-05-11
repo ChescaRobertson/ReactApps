@@ -1,5 +1,6 @@
-package com.example.rest.webservices.restfulwebservices;
+package com.example.rest.webservices.restfulwebservices.helloworld;
 
+import com.example.rest.webservices.restfulwebservices.helloworld.HelloWorldBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
